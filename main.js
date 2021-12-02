@@ -1,10 +1,10 @@
-import * as THREE from 'three';
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
-import {FBXLoader} from 'three/examples/jsm/loaders/FBXLoader.js'
-import {PointerLockControls} from 'three/examples/jsm/controls/PointerLockControls.js';
-import {TransformControls} from 'three/examples/jsm/controls/TransformControls.js';
-import {Octree} from 'three/examples/jsm/math/Octree.js';
-import {Capsule} from 'three/examples/jsm/math/Capsule.js';
+import * as THREE from './node_modules/three/build/three.module.js';
+import {GLTFLoader} from './node_modules/three/examples/jsm/loaders/GLTFLoader.js';
+import {FBXLoader} from './node_modules/three/examples/jsm/loaders/FBXLoader.js'
+import {PointerLockControls} from './node_modules/three/examples/jsm/controls/PointerLockControls.js';
+import {TransformControls} from './node_modules/three/examples/jsm/controls/TransformControls.js';
+import {Octree} from './node_modules/three/examples/jsm/math/Octree.js';
+import {Capsule} from './node_modules/three/examples/jsm/math/Capsule.js';
 
 const clock = new THREE.Clock();
 const gravity = 30;
