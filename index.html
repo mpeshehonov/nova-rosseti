@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>three.js webgl - FBX loader</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+    <link href="styles.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<!---Шейдер WebGL для неба-------------------------------->
+<script id="vertexShader" type="x-shader/x-vertex">
+		varying vec3 vWorldPosition;
+		void main() {
+			vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
+			vWorldPosition = worldPosition.xyz;
+			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+		}
+</script>
+<!---Шейдер WebGL для неба-------------------------------->
+<script id="fragmentShader" type="x-shader/x-fragment">
+		uniform vec3 topColor;
+		uniform vec3 bottomColor;
+		uniform float offset;
+		uniform float exponent;
+		varying vec3 vWorldPosition;
+		void main() {
+			float h = normalize( vWorldPosition + offset ).y;
+			gl_FragColor = vec4( mix( bottomColor, topColor, max( pow( max( h , 0.0), exponent ), 0.0 ) ), 1.0 );
+		}
+</script>
+<!---поле для вывода по рез-------------------------->
+<textarea cols="40 " id="r2f" name="res_piory" readonly="readonly" rows="3" wrap="hard">
+</textarea>
+</div>
+<!---3д окно--------------------------------->
+<div id="blocker">
+    <div id="instructions">
+    </div>
+</div>
+<script src="main.js" type="module"></script>
+</body>
+</html>
+
+
+
