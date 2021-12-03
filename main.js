@@ -16,7 +16,7 @@ let playerOnFloor = false; // нахождение капсулы игрока �
 let speedAccelOn = false; // бег
 
 let prevTime = performance.now();
-const redbuts = []; // массив redbuts для теста
+const redButtons = []; // массив redButtons для теста
 let raycaster;
 let raycasterColor;
 var raycasterAvia = new THREE.Raycaster(); // для центровки загруженных моделей в камере
@@ -245,41 +245,34 @@ function init() {
     flashLightT1.castShadow = true;
 
 
-// Объекты для взаимодействия именно тела игрока:
-    // куб2
-    var geom1cub2j = new THREE.BoxBufferGeometry(3, 0.3, 3);
-    var objectcub2j = new THREE.Mesh(geom1cub2j, new THREE.MeshLambertMaterial({color: '#f00'}));
-    scene.add(objectcub2j);
-    objectcub2j.position.set(75, 0.0, 18); // 75, 4, 16.5
-    objectcub2j.castShadow = true;
-    redbuts.push(objectcub2j);
-    //	worldOctree.fromGraphNode( objectcub2j ); //
+    // Добавляем рандомно красные квадраты для прохождения
+    for (let i = 0; i < 500; i++) {
+        var redSquare = new THREE.Mesh(
+          new THREE.BoxBufferGeometry(3, 0.3, 3),
+          new THREE.MeshLambertMaterial({color: '#f00'}));
+        scene.add(redSquare);
+        redSquare.position.set(Math.floor(Math.random()*300), 0.0, Math.floor(Math.random()*300)); // 75, 4, 16.5
+        redSquare.castShadow = true;
+        redButtons.push(redSquare);
+    }
 
-
-//
-    function buttonFire() { 	// можно использовать как прохождение трассы, или напротив- ошибка, если было касание
+    function touchRedButton() { 	// можно использовать как прохождение трассы, или напротив- ошибка, если было касание
         raycaster.ray.origin.copy(controls.getObject().position);
         raycaster.ray.origin.y > 0.1 || raycaster.ray.origin.y < 0.1; // реагирование на пересечение игрока с объектом по вертикали
         raycaster.ray.origin.x > 0;
         raycaster.ray.origin.z > 0;
 
-        let intersections = raycaster.intersectObjects(redbuts);
+        let intersections = raycaster.intersectObjects(redButtons);
         let onObject = intersections.length > 0; // реагирование с принадлежащим объектом из массива объектов- onObject
-
         for (let i = 0; i < intersections.length; i++) {
-            let pointYintersectX = intersections[i].point.x; // координата точки пересечения с игроком
-            let pointYintersectY = intersections[i].point.y;
-            let pointYintersectZ = intersections[i].point.z;
-
-            if (onObject === true && pointYintersectY > 0 || onObject === true && pointYintersectY < 0) {
-                //	playerVelocity.y = 15;
-                objectcub2j.material.color.set('#FF33FF');  // '#f00'
-                objectcub2j.scale.set(0.2, 0.2, 0.2);  // '#f00'
-                objectcub2j.rotation.set(30, 0, 0);  // '#f00'
-                //	console.log(camera.position.y + " игрок пересекся с объектом из массива джампад");
+            const touchedSquare = intersections[i];
+            let yPointIntersect = touchedSquare.point.y;
+            if (onObject === true && yPointIntersect > 0 || onObject === true && yPointIntersect < 0) {
+                touchedSquare.object.material.color.set('#FF33FF');
+                touchedSquare.object.scale.set(0.2, 0.2, 0.2);
+                touchedSquare.object.rotation.set(30, 0, 0);
             } else {
-                //	playerVelocity.y = 0;
-                objectcub2j.material.color.set('#f00');  // '#f00'
+                touchedSquare.object.material.color.set('#f00');
             }
         }
 
@@ -1367,7 +1360,7 @@ function init() {
         moveSaltoRight(deltaTime);
         moveSaltoLeft(deltaTime);
 
-        requestAnimationFrame(buttonFire);
+        requestAnimationFrame(touchRedButton);
         //   accelPrint(deltaTime);
         //   movinCheck();
 
