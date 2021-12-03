@@ -823,6 +823,18 @@ function init() {
     loaderLocation.load('./3d/models/avia_scene/location/3one02.glb', function (gltf) {
         scene.add(gltf.scene);
         worldOctree.fromGraphNode(gltf.scene);
+        let colorRemoteOn = new THREE.MeshLambertMaterial({color: '#AAFFСС'})
+        gltf.scene.traverse( child => {
+            if ( child.isMesh ) {
+                child.material = colorRemoteOn;
+                child.castShadow = true;
+                child.receiveShadow = true;
+                if ( child.material.map ) {
+                    child.material.map.anisotropy = 8; // сглаживание
+                }
+            }
+        } );
+
         gltf.scene.castShadow = true;
     },);
 
@@ -830,24 +842,68 @@ function init() {
     loaderLocation.load('./3d/models/avia_scene/location/3one03.glb', function (gltf) {
         scene.add(gltf.scene);
         worldOctree.fromGraphNode(gltf.scene);
+        let colorRemoteOn = new THREE.MeshLambertMaterial({color: '#FFB27F'})
+        gltf.scene.traverse( child => {
+            if ( child.isMesh ) {
+                child.material = colorRemoteOn;
+                child.castShadow = true;
+                child.receiveShadow = true;
+                if ( child.material.map ) {
+                    child.material.map.anisotropy = 8; // сглаживание
+                }
+            }
+        } );
         gltf.scene.castShadow = true;
     },);
 
     loaderLocation.load('./3d/models/avia_scene/location/3one04.glb', function (gltf) {
         scene.add(gltf.scene);
         worldOctree.fromGraphNode(gltf.scene);
+        let colorRemoteOn = new THREE.MeshLambertMaterial({color: '#99ddff'})
+        gltf.scene.traverse( child => {
+            if ( child.isMesh ) {
+                child.material = colorRemoteOn;
+                child.castShadow = true;
+                child.receiveShadow = true;
+                if ( child.material.map ) {
+                    child.material.map.anisotropy = 8; // сглаживание
+                }
+            }
+        } );
         gltf.scene.castShadow = true;
     },);
 
     loaderLocation.load('./3d/models/avia_scene/location/3one06.glb', function (gltf) {
         scene.add(gltf.scene);
         worldOctree.fromGraphNode(gltf.scene);
+        let colorRemoteOn = new THREE.MeshLambertMaterial({color: '#ffaaff'})
+        gltf.scene.traverse( child => {
+            if ( child.isMesh ) {
+                child.material = colorRemoteOn;
+                child.castShadow = true;
+                child.receiveShadow = true;
+                if ( child.material.map ) {
+                    child.material.map.anisotropy = 8; // сглаживание
+                }
+            }
+        } );
         gltf.scene.castShadow = true;
     },);
 
     loaderLocation.load('./3d/models/avia_scene/location/3one07.glb', function (gltf) {
         scene.add(gltf.scene);
         worldOctree.fromGraphNode(gltf.scene);
+        let colorRemoteOn = new THREE.MeshLambertMaterial({color: '#bbffcc'})
+        gltf.scene.traverse( child => {
+            if ( child.isMesh ) {
+                child.material = colorRemoteOn;
+                child.castShadow = true;
+                child.receiveShadow = true;
+                if ( child.material.map ) {
+                    child.material.map.anisotropy = 8; // сглаживание
+                }
+            }
+        } );
         gltf.scene.castShadow = true;
     },);
 
