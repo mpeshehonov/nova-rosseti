@@ -34,7 +34,7 @@ let groupRemote; // группа деталей пульта ДУ
 
 let startSaltoR = false;	// сальто боковое правое (крен правый)
 let startSaltoL = false;	// сальто боковое левое (крен левый)
-var  bulbLight, bulbMat;
+var bulbLight, bulbMat;
 let lamps;
 
 let audio = new Audio('./audio/coin.mp3');
@@ -252,31 +252,31 @@ function init() {
     // Добавляем рандомно красные квадраты для прохождения
     for (let i = 0; i < 100; i++) {
         var redSquare = new THREE.Mesh(
-          new THREE.BoxBufferGeometry(1, 1, 1),
-          new THREE.MeshLambertMaterial({color: 'yellow'}));
+            new THREE.BoxBufferGeometry(1, 1, 1),
+            new THREE.MeshLambertMaterial({color: 'yellow'}));
         scene.add(redSquare);
         redSquare.position.set(
-          Math.floor(Math.random()*300),
-          Math.floor(Math.random()*10),
-          Math.floor(Math.random()*300)); // 75, 4, 16.5
+            Math.floor(Math.random() * 300),
+            Math.floor(Math.random() * 10),
+            Math.floor(Math.random() * 300)); // 75, 4, 16.5
         redSquare.castShadow = true;
         redButtons.push(redSquare);
     }
 
-    const bulbGeometry = new THREE.SphereGeometry( 0.1, 16, 18 ); // создать геометрию лампы из сферы
-    bulbLight = new THREE.PointLight( 0xB1E1FF, 10, 100, 2 ); // это лампа из точки
+    const bulbGeometry = new THREE.SphereGeometry(0.1, 16, 18); // создать геометрию лампы из сферы
+    bulbLight = new THREE.PointLight(0xB1E1FF, 10, 100, 2); // это лампа из точки
 
-    bulbMat = new THREE.MeshStandardMaterial( {
+    bulbMat = new THREE.MeshStandardMaterial({
         emissive: 0xffffee,
         emissiveIntensity: 1,
         color: 0x000000
-    } );
+    });
 
-    bulbLight.add( new THREE.Mesh( bulbGeometry, bulbMat ) );
-    bulbLight.position.set( 185, 12, 125 );
+    bulbLight.add(new THREE.Mesh(bulbGeometry, bulbMat));
+    bulbLight.position.set(185, 12, 125);
     bulbLight.castShadow = true;
     bulbLight.receiveShadow = true;
-    scene.add( bulbLight );
+    scene.add(bulbLight);
 
     function touchRedButton() { 	// можно использовать как прохождение трассы, или напротив- ошибка, если было касание
         raycaster.ray.origin.copy(controls.getObject().position);
@@ -290,7 +290,7 @@ function init() {
         for (let i = 0; i < intersections.length; i++) {
             const touchedSquare = intersections[i];
             let yPointIntersect = touchedSquare.point.y;
-            if ( onObject === true  ) {
+            if (onObject === true) {
                 audio.play();
                 pointCount = pointCount + 1;
                 touchedSquare.object.material.color.set('#FF33FF');
@@ -463,6 +463,7 @@ function init() {
         }
 
         /* вставка для индикаторов */
+        const warningMessage = document.getElementById('warning-message');
 
         /* индикатор крена */
         const rollMark = document.getElementById("roll-mark");
@@ -472,6 +473,14 @@ function init() {
             ? ((180 / Math.PI) * camera.rotation.z).toFixed(0)
             : ((180 / Math.PI) * camera.rotation.z).toFixed(0) - 360;
         airplaneRollView.style.transform = 'rotate(' + (180 / Math.PI) * camera.rotation.z + 'deg)';
+        if (((180 / Math.PI) * camera.rotation.z).toFixed(0) > 40) {
+            warningMessage.innerText = 'Вы сделали опасный маневр! Крен и тангаж не должны быть больше 40 градусов!';
+            warningMessage.style.display = 'block';
+            setTimeout(() => {
+                warningMessage.style.display = 'none';
+            }, 2000);
+        }
+
 
         /* индикатор крена */
         const pitchMark = document.getElementById("pitch-mark");
@@ -481,6 +490,14 @@ function init() {
             ? ((180 / Math.PI) * camera.rotation.x).toFixed(0)
             : ((180 / Math.PI) * camera.rotation.x).toFixed(0) - 360;
         airplanePitchView.style.transform = 'rotate(' + (180 / Math.PI) * camera.rotation.x + 'deg)';
+        if (((180 / Math.PI) * camera.rotation.x).toFixed(0) > 40) {
+            warningMessage.innerText = 'Вы сделали опасный маневр! Крен и тангаж не должны быть больше 40 градусов!';
+            warningMessage.style.display = 'block';
+            setTimeout(() => {
+                warningMessage.style.display = 'none';
+            }, 2000);
+        }
+
 
 
         // console.dir(camera.rotation.z);
@@ -489,6 +506,15 @@ function init() {
         hSpeedMark.innerText = Math.sqrt((parseFloat(playerVelocity.x)) ** 2 + (parseFloat(playerVelocity.z)) ** 2).toFixed(1);
         const hSpeedView = document.getElementById("h-speed-arrow");
         hSpeedView.style.transform = 'rotate(' + (-30 + +Math.sqrt((parseFloat(playerVelocity.x)) ** 2 + (parseFloat(playerVelocity.z)) ** 2).toFixed(1)) + 'deg)';
+
+        if (+Math.sqrt((parseFloat(playerVelocity.x)) ** 2 + (parseFloat(playerVelocity.z))) > 100) {
+            warningMessage.innerText = 'Вы набрали слишком большую скорость!';
+            warningMessage.style.display = 'block';
+            setTimeout(() => {
+                warningMessage.style.display = 'none';
+            }, 2000);
+
+        }
 
         /* индикатор вертикальной скорости */
         const vSpeedValueBox = document.getElementById("v-speed-value");
@@ -837,17 +863,17 @@ function init() {
     loaderLocation.load('./3d/models/avia_scene/location/3one02.glb', function (gltf) {
         scene.add(gltf.scene);
         worldOctree.fromGraphNode(gltf.scene);
-        let colorRemoteOn = new THREE.MeshLambertMaterial({color: '#AAFFСС'})
-        gltf.scene.traverse( child => {
-            if ( child.isMesh ) {
+        let colorRemoteOn = new THREE.MeshLambertMaterial({color: '#aaffcc'})
+        gltf.scene.traverse(child => {
+            if (child.isMesh) {
                 child.material = colorRemoteOn;
                 child.castShadow = true;
                 child.receiveShadow = true;
-                if ( child.material.map ) {
+                if (child.material.map) {
                     child.material.map.anisotropy = 8; // сглаживание
                 }
             }
-        } );
+        });
 
         gltf.scene.castShadow = true;
     },);
@@ -857,16 +883,16 @@ function init() {
         scene.add(gltf.scene);
         worldOctree.fromGraphNode(gltf.scene);
         let colorRemoteOn = new THREE.MeshLambertMaterial({color: '#FFB27F'})
-        gltf.scene.traverse( child => {
-            if ( child.isMesh ) {
+        gltf.scene.traverse(child => {
+            if (child.isMesh) {
                 child.material = colorRemoteOn;
                 child.castShadow = true;
                 child.receiveShadow = true;
-                if ( child.material.map ) {
+                if (child.material.map) {
                     child.material.map.anisotropy = 8; // сглаживание
                 }
             }
-        } );
+        });
         gltf.scene.castShadow = true;
     },);
 
@@ -874,16 +900,16 @@ function init() {
         scene.add(gltf.scene);
         worldOctree.fromGraphNode(gltf.scene);
         let colorRemoteOn = new THREE.MeshLambertMaterial({color: '#99ddff'})
-        gltf.scene.traverse( child => {
-            if ( child.isMesh ) {
+        gltf.scene.traverse(child => {
+            if (child.isMesh) {
                 child.material = colorRemoteOn;
                 child.castShadow = true;
                 child.receiveShadow = true;
-                if ( child.material.map ) {
+                if (child.material.map) {
                     child.material.map.anisotropy = 8; // сглаживание
                 }
             }
-        } );
+        });
         gltf.scene.castShadow = true;
     },);
 
@@ -891,16 +917,16 @@ function init() {
         scene.add(gltf.scene);
         worldOctree.fromGraphNode(gltf.scene);
         let colorRemoteOn = new THREE.MeshLambertMaterial({color: '#ffaaff'})
-        gltf.scene.traverse( child => {
-            if ( child.isMesh ) {
+        gltf.scene.traverse(child => {
+            if (child.isMesh) {
                 child.material = colorRemoteOn;
                 child.castShadow = true;
                 child.receiveShadow = true;
-                if ( child.material.map ) {
+                if (child.material.map) {
                     child.material.map.anisotropy = 8; // сглаживание
                 }
             }
-        } );
+        });
         gltf.scene.castShadow = true;
     },);
 
@@ -908,16 +934,16 @@ function init() {
         scene.add(gltf.scene);
         worldOctree.fromGraphNode(gltf.scene);
         let colorRemoteOn = new THREE.MeshLambertMaterial({color: '#bbffcc'})
-        gltf.scene.traverse( child => {
-            if ( child.isMesh ) {
+        gltf.scene.traverse(child => {
+            if (child.isMesh) {
                 child.material = colorRemoteOn;
                 child.castShadow = true;
                 child.receiveShadow = true;
-                if ( child.material.map ) {
+                if (child.material.map) {
                     child.material.map.anisotropy = 8; // сглаживание
                 }
             }
-        } );
+        });
         gltf.scene.castShadow = true;
     },);
 

@@ -745,6 +745,22 @@
     line-height: 32px;
 }
 
+#warning-message {
+    position: fixed;
+    min-height: 80px;
+    min-width: 400px;
+    top: 150px;
+    right: calc(50% - 400px);
+    left: calc(50% - 400px);
+    background: #ffddbb;
+    border-radius: 15px;
+    font-size: 21px;
+    color: #333;
+    text-align: center;
+    line-height: 32px;
+    padding: 15px;
+}
+
 /* */
 /* для тестирования интерфейса */
 /* */
