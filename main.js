@@ -250,12 +250,12 @@ function init() {
     // Добавляем рандомно красные квадраты для прохождения
     for (let i = 0; i < 100; i++) {
         var redSquare = new THREE.Mesh(
-          new THREE.BoxBufferGeometry(0.5, 0.5, 0.5),
+          new THREE.BoxBufferGeometry(1, 1, 1),
           new THREE.MeshLambertMaterial({color: 'yellow'}));
         scene.add(redSquare);
         redSquare.position.set(
           Math.floor(Math.random()*300),
-          Math.floor(0.1),
+          Math.floor(Math.random()*10),
           Math.floor(Math.random()*300)); // 75, 4, 16.5
         redSquare.castShadow = true;
         redButtons.push(redSquare);
