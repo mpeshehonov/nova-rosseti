@@ -488,7 +488,7 @@ function init() {
 
         /* компасс */
         const compassScale = document.querySelector('.compass .scale');
-
+        compassScale.style.transform = 'rotate(' + (180/Math.PI)*camera.rotation.y + 'deg)';
 
     }
 
