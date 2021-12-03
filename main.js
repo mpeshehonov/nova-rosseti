@@ -452,13 +452,13 @@ function init() {
                 playerVelocity.add(getSideVector().multiplyScalar(speed * deltaTime));
             }
             if (keyStates['Space']) {
-                playerVelocity.y = 15;
+                playerVelocity.y = 2;
             }
             if (keyStates['KeyX']) {
-                playerVelocity.y -= 35;
+                playerVelocity.y -= 20;
             }
             if (keyStates['KeyC']) {
-                playerVelocity.y -= 35;
+                playerVelocity.y -= 20;
             }
         }
 
