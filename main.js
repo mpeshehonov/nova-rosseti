@@ -71,7 +71,6 @@ function init() {
     renderer.outputEncoding = THREE.sRGBEncoding;
 //	renderer.toneMapping = THREE.ReinhardToneMapping;
 
-
     const container = document.createElement('div');
     document.body.appendChild(container);
     container.appendChild(renderer.domElement);
@@ -251,16 +250,14 @@ function init() {
     // Добавляем рандомно красные квадраты для прохождения
     for (let i = 0; i < 100; i++) {
         var redSquare = new THREE.Mesh(
-          new THREE.CylinderGeometry( 0.5, 0.5, 0.1, 32),
+          new THREE.BoxBufferGeometry(0.5, 0.5, 0.5),
           new THREE.MeshLambertMaterial({color: 'yellow'}));
         scene.add(redSquare);
         redSquare.position.set(
           Math.floor(Math.random()*300),
-          Math.floor(Math.random()*100),
+          Math.floor(0.1),
           Math.floor(Math.random()*300)); // 75, 4, 16.5
         redSquare.castShadow = true;
-        redSquare.rotation.x = Math.PI / 2;
-        redSquare.rotation.y = Math.PI / 4;
         redButtons.push(redSquare);
     }
 
@@ -801,7 +798,7 @@ function init() {
 // предметы - объекты на сцене
     // ground
     var meshground = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshPhongMaterial({
-        color: 'green',
+        color: 0x16db4b,
         depthWrite: false
     }));
     meshground.receiveShadow = true;
