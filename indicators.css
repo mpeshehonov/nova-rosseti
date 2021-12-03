@@ -702,6 +702,48 @@
     background: linear-gradient(90deg, greenyellow 0%, green 90%);
 }
 
+.time-counter-wrapper {
+    position: fixed;
+    min-height: 80px;
+    min-width: 120px;
+    top: 15px;
+    right: 320px;
+    background: #0075A2;
+    border-radius: 15px;
+    font-size: 32px;
+    color: #fff;
+    text-align: center;
+    line-height: 80px;
+}
+
+.point-counter-wrapper {
+    position: fixed;
+    min-height: 80px;
+    min-width: 120px;
+    top: 110px;
+    right: 320px;
+    background: gold;
+    border-radius: 15px;
+    font-size: 32px;
+    color: #fff;
+    text-align: center;
+    line-height: 80px;
+}
+
+.message-wrapper {
+    position: fixed;
+    min-height: 80px;
+    min-width: 400px;
+    top: 150px;
+    right: calc(50% - 450px);
+    left: calc(50% - 450px);
+    background: lightyellow;
+    border-radius: 15px;
+    font-size: 21px;
+    color: #333;
+    text-align: center;
+    line-height: 32px;
+}
 
 /* */
 /* для тестирования интерфейса */

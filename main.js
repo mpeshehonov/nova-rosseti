@@ -251,10 +251,10 @@ function init() {
     // Добавляем рандомно красные квадраты для прохождения
     for (let i = 0; i < 500; i++) {
         var redSquare = new THREE.Mesh(
-          new THREE.BoxBufferGeometry(3, 0.3, 3),
-          new THREE.MeshLambertMaterial({color: '#f00'}));
+            new THREE.BoxBufferGeometry(3, 0.3, 3),
+            new THREE.MeshLambertMaterial({color: '#f00'}));
         scene.add(redSquare);
-        redSquare.position.set(Math.floor(Math.random()*300), 0.0, Math.floor(Math.random()*300)); // 75, 4, 16.5
+        redSquare.position.set(Math.floor(Math.random() * 300), 0.0, Math.floor(Math.random() * 300)); // 75, 4, 16.5
         redSquare.castShadow = true;
         redButtons.push(redSquare);
     }
@@ -264,6 +264,7 @@ function init() {
         raycaster.ray.origin.y > 0.1 || raycaster.ray.origin.y < 0.1; // реагирование на пересечение игрока с объектом по вертикали
         raycaster.ray.origin.x > 0;
         raycaster.ray.origin.z > 0;
+        const pointCounterWrapper = document.querySelector('.point-counter-wrapper');
 
         let intersections = raycaster.intersectObjects(redButtons);
         let onObject = intersections.length > 0; // реагирование с принадлежащим объектом из массива объектов- onObject
@@ -275,6 +276,7 @@ function init() {
                 touchedSquare.object.material.color.set('#FF33FF');
                 touchedSquare.object.scale.set(0.2, 0.2, 0.2);
                 touchedSquare.object.rotation.set(30, 0, 0);
+                pointCounterWrapper.innerHTML = pointCount;
             } else {
                 touchedSquare.object.material.color.set('#f00');
             }
@@ -488,7 +490,7 @@ function init() {
 
         /* компасс */
         const compassScale = document.querySelector('.compass .scale');
-        compassScale.style.transform = 'rotate(' + (180/Math.PI)*camera.rotation.y + 'deg)';
+        compassScale.style.transform = 'rotate(' + (180 / Math.PI) * camera.rotation.y + 'deg)';
 
     }
 
@@ -1095,11 +1097,67 @@ function init() {
             case 81: // q
                 chaingeColor2ArLeftRotate();
                 break;
+            case 71: // g
+                startTest();
+                break;
+            case 84: // t
+                startTraining();
+                break;
 
         }
     };
     document.addEventListener('keyup', changeTestoff, false);
 
+
+    function changeBatteryCharge(value) {
+        const batteryMark = document.getElementById('battery-mark');
+        const batteryColorTube = document.getElementById('battery-color-tube');
+        batteryMark.innerText = value;
+    }
+
+    function startTest() {
+        pointCount = 0;
+        const messageAboutTest = document.querySelector('.message-wrapper');
+        const timeCounterWrapper = document.querySelector('.time-counter-wrapper');
+
+        messageAboutTest.innerHTML = 'Внимание! <br> В процессе прохождения теста вам надо будет показать своё мастерство управления дроном.<br>\n' +
+            '        Необходимо собрать как можно больше деталей за одну минуту.<br>\n' +
+            '        Если вы готовы пройти тест, нажмите клавишу "G".<br>\n' +
+            '        Или нажмите "T" для тренировки.';
+
+        changeBatteryCharge(60);
+
+        messageAboutTest.setAttribute('style', 'display: none;');
+        timeCounterWrapper.innerHTML = '60';
+        let counter = 60;
+        let testTime = setInterval(function () {
+            counter -= 1;
+            timeCounterWrapper.innerHTML = counter;
+            changeBatteryCharge(counter);
+        }, 1000);
+        setTimeout(() => {
+            clearInterval(testTime);
+            stopTest();
+        }, 60000);
+
+    }
+
+    function stopTest() {
+        const messageAboutTest = document.querySelector('.message-wrapper');
+        messageAboutTest.innerHTML = 'Тест завершён. Вы набрали ' + pointCount + ' очков.'
+        messageAboutTest.setAttribute('style', 'display: block;t')
+        pointCount = 0;
+        changeBatteryCharge(60);
+    }
+
+    function startTraining() {
+        const messageAboutTest = document.querySelector('.message-wrapper');
+        const timeCounterWrapper = document.querySelector('.time-counter-wrapper');
+        const pointCounterWrapper = document.querySelector('.point-counter-wrapper');
+        messageAboutTest.setAttribute('style', 'display: none;');
+        timeCounterWrapper.setAttribute('style', 'display: none;');
+        pointCounterWrapper.setAttribute('style', 'display: none;');
+    }
 
     // правый стик
     //
