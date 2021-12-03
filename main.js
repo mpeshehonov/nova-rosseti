@@ -34,6 +34,8 @@ let groupRemote; // группа деталей пульта ДУ
 
 let startSaltoR = false;	// сальто боковое правое (крен правый)
 let startSaltoL = false;	// сальто боковое левое (крен левый)
+var  bulbLight, bulbMat;
+let lamps;
 
 let audio = new Audio('./audio/coin.mp3');
 init();
@@ -260,6 +262,21 @@ function init() {
         redSquare.castShadow = true;
         redButtons.push(redSquare);
     }
+
+    const bulbGeometry = new THREE.SphereGeometry( 0.1, 16, 18 ); // создать геометрию лампы из сферы
+    bulbLight = new THREE.PointLight( 0xB1E1FF, 10, 100, 2 ); // это лампа из точки
+
+    bulbMat = new THREE.MeshStandardMaterial( {
+        emissive: 0xffffee,
+        emissiveIntensity: 1,
+        color: 0x000000
+    } );
+
+    bulbLight.add( new THREE.Mesh( bulbGeometry, bulbMat ) );
+    bulbLight.position.set( 185, 12, 125 );
+    bulbLight.castShadow = true;
+    bulbLight.receiveShadow = true;
+    scene.add( bulbLight );
 
     function touchRedButton() { 	// можно использовать как прохождение трассы, или напротив- ошибка, если было касание
         raycaster.ray.origin.copy(controls.getObject().position);
