@@ -38,6 +38,9 @@ let startSaltoL = false;	// сальто боковое левое (крен л�
 
 init();
 
+// Счётчик очков
+var pointCount = 0;
+
 function init() {
     // Scene -------------------------#################--------------------------------------------------------
     const scene = new THREE.Scene();
@@ -268,6 +271,7 @@ function init() {
             const touchedSquare = intersections[i];
             let yPointIntersect = touchedSquare.point.y;
             if (onObject === true && yPointIntersect > 0 || onObject === true && yPointIntersect < 0) {
+                pointCount = pointCount + 1;
                 touchedSquare.object.material.color.set('#FF33FF');
                 touchedSquare.object.scale.set(0.2, 0.2, 0.2);
                 touchedSquare.object.rotation.set(30, 0, 0);
