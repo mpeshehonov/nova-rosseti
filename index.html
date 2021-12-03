@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <title>three.js webgl - FBX loader</title>
     <meta charset="utf-8">
     <meta content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+    <link href="indicators.css" rel="stylesheet" type="text/css">
     <link href="styles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -33,14 +34,297 @@
 		}
 </script>
 <!---поле для вывода по рез-------------------------->
-<textarea cols="40 " id="r2f" name="res_piory" readonly="readonly" rows="3" wrap="hard">
-</textarea>
-</div>
+<!--<textarea cols="40 " id="r2f" name="res_piory" readonly="readonly" rows="3" wrap="hard">-->
+<!--</textarea>-->
+<!--</div>-->
 <!---3д окно--------------------------------->
 <div id="blocker">
     <div id="instructions">
     </div>
 </div>
+
+<div class="indicators-left-panel">
+    <!--Крен-->
+    <div class="roll">
+        <div class="header">
+            <div class="name">Крен</div>
+            <div class="value" id="roll-mark">0.0</div>
+        </div>
+        <div class="airplane-roll-wrapper">
+            <div id="airplane-roll-view">
+
+            </div>
+        </div>
+        <div class="scale">
+            <div class="mark"></div>
+            <div class="mark deg-m-30"></div>
+            <div class="mark deg-m-60"></div>
+            <div class="mark deg-m-90"></div>
+            <div class="mark deg-m-120"></div>
+            <div class="mark deg-m-150"></div>
+            <div class="mark deg-m-180"></div>
+
+            <div class="small-mark deg-m-10"></div>
+            <div class="small-mark deg-m-20"></div>
+            <div class="small-mark deg-m-40"></div>
+            <div class="small-mark deg-m-50"></div>
+            <div class="small-mark deg-m-70"></div>
+            <div class="small-mark deg-m-80"></div>
+
+            <div class="small-mark deg-m-100"></div>
+            <div class="small-mark deg-m-110"></div>
+            <div class="small-mark deg-m-130"></div>
+            <div class="small-mark deg-m-140"></div>
+            <div class="small-mark deg-m-160"></div>
+            <div class="small-mark deg-m-170"></div>
+        </div>
+    </div>
+
+    <!--    Тангаж-->
+    <div class="pitch">
+        <div class="header">
+            <div class="name">Тангаж</div>
+            <div class="value" id="pitch-mark">0.0</div>
+        </div>
+        <div class="airplane-pitch-wrapper">
+            <div id="airplane-pitch-view">
+
+            </div>
+        </div>
+        <div class="scale">
+            <div class="mark"></div>
+            <div class="mark deg-m-30"></div>
+            <div class="mark deg-m-60"></div>
+            <div class="mark deg-m-90"></div>
+            <div class="mark deg-m-120"></div>
+            <div class="mark deg-m-150"></div>
+            <div class="mark deg-m-180"></div>
+
+            <div class="mark deg-p-30"></div>
+            <div class="mark deg-p-60"></div>
+            <div class="mark deg-p-90"></div>
+            <div class="mark deg-p-120"></div>
+            <div class="mark deg-p-150"></div>
+
+            <div class="small-mark deg-m-10"></div>
+            <div class="small-mark deg-m-20"></div>
+            <div class="small-mark deg-m-40"></div>
+            <div class="small-mark deg-m-50"></div>
+            <div class="small-mark deg-m-70"></div>
+            <div class="small-mark deg-m-80"></div>
+
+            <div class="small-mark deg-m-100"></div>
+            <div class="small-mark deg-m-110"></div>
+            <div class="small-mark deg-m-130"></div>
+            <div class="small-mark deg-m-140"></div>
+            <div class="small-mark deg-m-160"></div>
+            <div class="small-mark deg-m-170"></div>
+
+            <div class="small-mark deg-p-10"></div>
+            <div class="small-mark deg-p-20"></div>
+            <div class="small-mark deg-p-40"></div>
+            <div class="small-mark deg-p-50"></div>
+            <div class="small-mark deg-p-70"></div>
+            <div class="small-mark deg-p-80"></div>
+
+            <div class="small-mark deg-p-100"></div>
+            <div class="small-mark deg-p-110"></div>
+            <div class="small-mark deg-p-130"></div>
+            <div class="small-mark deg-p-140"></div>
+            <div class="small-mark deg-p-160"></div>
+            <div class="small-mark deg-p-170"></div>
+        </div>
+    </div>
+
+    <!--    Индикатор батареи -->
+    <div class="battery-wrapper">
+        <div class="battery-indicator">
+            <div class="battery-value" id="battery-mark">60.0</div>
+            <div class="battery-units">%</div>
+        </div>
+        <div class="battery-scale">
+            <div class="battery-line">
+                <div class="battery-color-tube" id="battery-color-tube"></div>
+            </div>
+        </div>
+    </div>
+
+    <!--    Индикатор температуры-->
+    <div class="temperature-wrapper">
+        <div class="temperature-indicator">
+            <div class="temperature-value" id="temperature-mark">20.0</div>
+            <div class="temperature-units">℃</div>
+        </div>
+        <div class="temperature-scale">
+            <div class="temperature-line">
+                <div class="temperature-color-tube" id="temperature-color-tube"></div>
+            </div>
+            <div class="temperature-sphere" id="temperature-sphere"></div>
+        </div>
+    </div>
+
+</div>
+
+<div class="indicators-right-panel">
+
+    <div class="compass">
+        <div class="compass-wrapper">
+            <div id="compass-wrapper-view"></div>
+        </div>
+        <div class="scale">
+            <div class="compass-letter" style="margin: 8px 0 0 102px;">С</div>
+            <div class="compass-letter" style="margin: 90px 5px 0 220px">В</div>
+            <div class="compass-letter" style="margin: 205px 0 0 130px">Ю</div>
+            <div class="compass-letter" style="margin: 122px 0 0 15px">З</div>
+            <div class="mark"></div>
+            <div class="mark deg-m-45"></div>
+            <div class="mark deg-m-90"></div>
+            <div class="mark deg-m-135"></div>
+            <div class="mark deg-p-45"></div>
+            <div class="mark deg-p-90"></div>
+            <div class="mark deg-p-135"></div>
+            <div class="mark deg-p-180"></div>
+
+            <div class="small-mark deg-m-10"></div>
+            <div class="small-mark deg-m-20"></div>
+            <div class="small-mark deg-m-30"></div>
+            <div class="small-mark deg-m-40"></div>
+            <div class="small-mark deg-m-50"></div>
+            <div class="small-mark deg-m-60"></div>
+            <div class="small-mark deg-m-70"></div>
+            <div class="small-mark deg-m-80"></div>
+
+            <div class="small-mark deg-m-100"></div>
+            <div class="small-mark deg-m-110"></div>
+            <div class="small-mark deg-m-120"></div>
+            <div class="small-mark deg-m-130"></div>
+            <div class="small-mark deg-m-140"></div>
+            <div class="small-mark deg-m-150"></div>
+            <div class="small-mark deg-m-160"></div>
+            <div class="small-mark deg-m-170"></div>
+
+            <div class="small-mark deg-p-10"></div>
+            <div class="small-mark deg-p-20"></div>
+            <div class="small-mark deg-p-30"></div>
+            <div class="small-mark deg-p-40"></div>
+            <div class="small-mark deg-p-50"></div>
+            <div class="small-mark deg-p-60"></div>
+            <div class="small-mark deg-p-70"></div>
+            <div class="small-mark deg-p-80"></div>
+
+            <div class="small-mark deg-p-100"></div>
+            <div class="small-mark deg-p-110"></div>
+            <div class="small-mark deg-p-120"></div>
+            <div class="small-mark deg-p-130"></div>
+            <div class="small-mark deg-p-140"></div>
+            <div class="small-mark deg-p-150"></div>
+            <div class="small-mark deg-p-160"></div>
+            <div class="small-mark deg-p-170"></div>
+
+            <div id="compass-arrow"></div>
+        </div>
+    </div>
+
+    <div class="h-speed">
+        <div class="header">
+            <div class="name">Горизонтальн. скорость</div>
+        </div>
+        <div class="scale">
+            <div class="mark"></div>
+            <div class="mark deg-m-30"></div>
+
+            <div class="mark deg-m-150"></div>
+            <div class="mark deg-m-180"></div>
+
+            <div class="mark deg-p-30"></div>
+            <div class="mark deg-p-60"></div>
+            <div class="mark deg-p-90"></div>
+            <div class="mark deg-p-120"></div>
+            <div class="mark deg-p-150"></div>
+
+            <div class="small-mark deg-m-10"></div>
+            <div class="small-mark deg-m-20"></div>
+
+            <div class="small-mark deg-m-160"></div>
+            <div class="small-mark deg-m-170"></div>
+
+            <div class="small-mark deg-p-10"></div>
+            <div class="small-mark deg-p-20"></div>
+            <div class="small-mark deg-p-40"></div>
+            <div class="small-mark deg-p-50"></div>
+            <div class="small-mark deg-p-70"></div>
+            <div class="small-mark deg-p-80"></div>
+
+            <div class="small-mark deg-p-100"></div>
+            <div class="small-mark deg-p-110"></div>
+            <div class="small-mark deg-p-130"></div>
+            <div class="small-mark deg-p-140"></div>
+            <div class="small-mark deg-p-160"></div>
+            <div class="small-mark deg-p-170"></div>
+
+            <div id="h-speed-arrow"></div>
+        </div>
+        <div class="h-speed-value">
+            <div class="value" id="h-speed-mark">0</div>
+            <div class="units" id="h-speed-units">км/ч</div>
+        </div>
+    </div>
+
+    <div class="v-speed-wrapper">
+        <div class="v-speed-units">м/с</div>
+        <div class="v-speed-scale">
+            <div class="v-speed-nearest-values">
+                <div class="v-speed-nearest-value">0.4</div>
+                <div class="v-speed-nearest-value">0.3</div>
+                <div class="v-speed-nearest-value">0.2</div>
+                <div class="v-speed-nearest-value">0.1</div>
+                <div class="v-speed-nearest-value">0.0</div>
+                <div class="v-speed-nearest-value">-0.1</div>
+                <div class="v-speed-nearest-value">-0.2</div>
+                <div class="v-speed-nearest-value">-0.3</div>
+                <div class="v-speed-nearest-value">-0.4</div>
+            </div>
+            <div class="v-speed-value-box">
+                <div class="v-speed-value" id="v-speed-value">
+                    0.0
+                </div>
+                <div class="arrow"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Индикатор высоты -->
+    <div class="height-wrapper">
+        <div class="height-units">м</div>
+        <div class="height-scale">
+            <div class="height-nearest-values">
+                <div class="height-nearest-value">0.4</div>
+                <div class="height-nearest-value">0.3</div>
+                <div class="height-nearest-value">0.2</div>
+                <div class="height-nearest-value">0.1</div>
+                <div class="height-nearest-value">0.0</div>
+                <div class="height-nearest-value">-0.1</div>
+                <div class="height-nearest-value">-0.2</div>
+                <div class="height-nearest-value">-0.3</div>
+                <div class="height-nearest-value">-0.4</div>
+            </div>
+            <div class="height-value-box">
+                <div class="height-value" id="height-value">
+                    0.0
+                </div>
+                <div class="arrow"></div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</div>
+
+
+
 <script src="main.js" type="module"></script>
 </body>
 </html>

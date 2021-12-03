@@ -1,0 +1,722 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: monospace;
+}
+
+.wrapper {
+    display: flex;
+    margin: 15px;
+    background: linear-gradient(270deg, #0075A2 0%, #00506F 99.18%);
+}
+
+.roll {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 250px;
+    width: 250px;
+    border: 1px solid #0075A2;
+    border-radius: 15px;
+    background: linear-gradient(to top, green, greenyellow 50%, white 50%, deepskyblue);
+    margin: 15px;
+}
+
+.airplane-roll-wrapper {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+}
+
+#airplane-roll-view {
+    width: 120px;
+    height: 70px;
+    background: url("img/airplane_front.png");
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -35px;
+    margin-left: -60px;
+    transform: rotate(0deg);
+    transition: transform 0.2s;
+}
+
+.airplane-pitch-wrapper {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+}
+
+#airplane-pitch-view {
+    width: 120px;
+    height: 70px;
+    background: url("img/airplane_profile.png");
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -35px;
+    margin-left: -60px;
+    transform: rotate(0deg);
+    transition: transform 0.5s;
+}
+
+.scale {
+    position: relative;
+    padding: 0 15px;
+    height: 50%;
+}
+
+.mark {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(to right, #0075A2, #fff);
+    transform-origin: 110px 0;
+    position: absolute;
+}
+
+.small-mark {
+    width: 30px;
+    height: 1px;
+    background: linear-gradient(to right, #0075A2, #fff);
+    transform-origin: 110px 0;
+    position: absolute;
+}
+
+.pitch {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 250px;
+    width: 250px;
+    border: 1px solid #0075A2;
+    border-radius: 15px;
+    background: linear-gradient(to top, green, greenyellow 50%, white 50%, deepskyblue);
+    margin: 15px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.name {
+    text-align: left;
+    padding: 10px 15px;
+    font-size: 20px;
+    color: #0075A2;
+}
+
+.value {
+    padding: 10px 15px;
+    font-size: 24px;
+    color: #0075A2;
+}
+
+
+/* Компас */
+.compass {
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+    width: 250px;
+    border: 1px solid #00506F;
+    border-radius: 15px;
+    background: #0075A2;
+    margin: 15px;
+}
+
+.compass-wrapper {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+}
+
+#compass-view {
+    width: 180px;
+    height: 4px;
+    background: linear-gradient(90deg, deepskyblue, #fff);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -20px;
+    margin-left: -60px;
+    transform: rotate(0deg);
+    transition: transform 0.5s;
+}
+
+.compass .scale {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    /*background: #1ed36f;*/
+    border-radius: 130px;
+    padding: 0;
+    margin: 0;
+}
+
+.compass .scale .mark,
+.compass .scale .small-mark {
+    margin-top: 125px;
+    margin-left: 15px;
+}
+
+.compass .compass-letter {
+    position: absolute;
+    font-size: 32px;
+    color: #fff;
+}
+
+.compass .scale .small-mark {
+    width: 10px;
+}
+
+#compass-arrow {
+    width: 110px;
+    height: 4px;
+    background: linear-gradient(270deg, #fff 0%, yellowgreen 99.18%);
+    transform-origin: 110px 0;
+    position: absolute;
+    transform: rotate(90deg);
+    margin: 125px 0 0 17px;
+}
+
+
+/* горизонтальная скорость */
+.h-speed {
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+    width: 250px;
+    border: 1px solid #00506F;
+    border-radius: 15px;
+    background: #0075A2;
+    margin: 15px;
+}
+
+.h-speed .header {
+    width: 100%;
+}
+
+.h-speed .header .name {
+    text-align: left;
+    padding: 10px 15px;
+    font-size: 18px;
+    color: #fff;
+}
+
+.h-speed .scale {
+    height: 67%;
+}
+
+.h-speed .scale .mark,
+.h-speed .scale .small-mark {
+    margin-top: 90px;
+}
+
+.h-speed-value {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    font-size: 24px;
+    color: #fff;
+    width: 250px;
+}
+
+.h-speed-value .value {
+    color: #fff;
+    font-size: 32px;
+    line-height: 32px;
+    width: 100px;
+    text-align: right;
+}
+
+.h-speed-value .units {
+    color: #fff;
+    padding: 10px 0;
+    font-size: 24px;
+    line-height: 32px;
+}
+
+#h-speed-arrow {
+    width: 110px;
+    height: 4px;
+    background: linear-gradient(270deg, #fff 0%, #00506F 99.18%);
+    transform-origin: 110px 0;
+    position: absolute;
+    transform: rotate(-30deg);
+    margin-top: 90px;
+}
+
+
+/* засечки для индикаторов */
+.deg-m-10 {
+    transform: rotate(-10deg);
+}
+
+.deg-m-20 {
+    transform: rotate(-20deg);
+}
+
+.deg-m-30 {
+    transform: rotate(-30deg);
+}
+
+.deg-m-40 {
+    transform: rotate(-40deg);
+}
+
+.deg-m-45 {
+    transform: rotate(-45deg);
+}
+
+.deg-m-50 {
+    transform: rotate(-50deg);
+}
+
+.deg-m-60 {
+    transform: rotate(-60deg);
+}
+
+.deg-m-70 {
+    transform: rotate(-70deg);
+}
+
+.deg-m-80 {
+    transform: rotate(-80deg);
+}
+
+.deg-m-90 {
+    transform: rotate(-90deg);
+}
+
+.deg-m-100 {
+    transform: rotate(-100deg);
+}
+
+.deg-m-110 {
+    transform: rotate(-110deg);
+}
+
+.deg-m-120 {
+    transform: rotate(-120deg);
+}
+
+.deg-m-130 {
+    transform: rotate(-130deg);
+}
+
+.deg-m-135 {
+    transform: rotate(-135deg);
+}
+
+.deg-m-140 {
+    transform: rotate(-140deg);
+}
+
+.deg-m-150 {
+    transform: rotate(-150deg);
+}
+
+.deg-m-160 {
+    transform: rotate(-160deg);
+}
+
+.deg-m-170 {
+    transform: rotate(-170deg);
+}
+
+.deg-m-180 {
+    transform: rotate(-180deg);
+}
+
+.deg-p-10 {
+    transform: rotate(10deg);
+}
+
+.deg-p-20 {
+    transform: rotate(20deg);
+}
+
+.deg-p-30 {
+    transform: rotate(30deg);
+}
+
+.deg-p-40 {
+    transform: rotate(40deg);
+}
+
+.deg-p-45 {
+    transform: rotate(45deg);
+}
+
+.deg-p-50 {
+    transform: rotate(50deg);
+}
+
+.deg-p-60 {
+    transform: rotate(60deg);
+}
+
+.deg-p-70 {
+    transform: rotate(70deg);
+}
+
+.deg-p-80 {
+    transform: rotate(80deg);
+}
+
+.deg-p-90 {
+    transform: rotate(90deg);
+}
+
+.deg-p-100 {
+    transform: rotate(100deg);
+}
+
+.deg-p-110 {
+    transform: rotate(110deg);
+}
+
+.deg-p-120 {
+    transform: rotate(120deg);
+}
+
+.deg-p-130 {
+    transform: rotate(130deg);
+}
+
+.deg-p-135 {
+    transform: rotate(135deg);
+}
+
+.deg-p-140 {
+    transform: rotate(140deg);
+}
+
+.deg-p-150 {
+    transform: rotate(150deg);
+}
+
+.deg-p-160 {
+    transform: rotate(160deg);
+}
+
+.deg-p-170 {
+    transform: rotate(170deg);
+}
+
+.deg-p-180 {
+    transform: rotate(180deg);
+}
+
+
+/* Вертикальная скорость */
+.v-speed-wrapper {
+    display: flex;
+    width: 110px;
+}
+
+.v-speed-units {
+    position: absolute;
+    margin: 35px 10px 20px 30px;
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 18px;
+}
+
+.v-speed-scale {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 250px;
+    width: 70px;
+    margin: 10px;
+    border: 1px solid #0075A2;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.v-speed-nearest-values {
+    padding-top: 6px;
+    flex: 1 1 auto;
+    overflow: hidden;
+    margin-top: 0;
+
+    /*transition: margin-top 0.2s linear;*/
+}
+
+.v-speed-nearest-value {
+    height: 26px;
+    width: 70px;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 26px;
+    font-size: 18px;
+    text-align: right;
+}
+
+.v-speed-nearest-value:after {
+    content: "-";
+    color: rgba(255, 255, 255, 0.5);
+    float: right;
+    height: 0;
+    width: 0;
+    margin: 2px 10px 6px 10px;
+}
+
+.v-speed-value-box {
+    display: flex;
+    position: absolute;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    height: 26px;
+    width: 70px;
+    background: #0075A2;
+    z-index: 10;
+}
+
+.v-speed-value {
+    line-height: 26px;
+    color: #fff;
+    font-size: 18px;
+    width: 70px;
+    text-align: right;
+}
+
+.v-speed-value-box .arrow {
+    float: right;
+    height: 0;
+    width: 0;
+    margin: 5px 0;
+    border: 10px solid transparent;
+    border-right: 10px solid rgba(255, 255, 255, 0.5);
+}
+
+
+/* Индикатор высоты */
+.height-wrapper {
+    display: flex;
+    width: 110px;
+}
+
+.height-units {
+    position: absolute;
+    margin: 35px 40px;
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 18px;
+}
+
+.height-scale {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 250px;
+    width: 70px;
+    margin: 10px;
+    border: 1px solid #0075A2;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.height-nearest-values {
+    padding-top: 6px;
+    flex: 1 1 auto;
+    overflow: hidden;
+    margin-top: 0;
+
+}
+
+.height-nearest-value {
+    height: 26px;
+    width: 70px;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 30px;
+    font-size: 18px;
+    text-align: right;
+}
+
+.height-nearest-value:after {
+    content: "-";
+    color: rgba(255, 255, 255, 0.5);
+    float: right;
+    height: 0;
+    width: 0;
+    margin: 2px 10px 6px 10px;
+}
+
+.height-value-box {
+    display: flex;
+    position: absolute;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    height: 26px;
+    width: 70px;
+    background: #0075A2;
+    z-index: 10;
+}
+
+.height-value {
+    line-height: 26px;
+    color: #fff;
+    font-size: 20px;
+    width: 80px;
+    text-align: right;
+}
+
+.height-value-box .arrow {
+    float: right;
+    height: 0;
+    width: 0;
+    margin: 5px 0;
+    border: 10px solid transparent;
+    border-right: 10px solid rgba(255, 255, 255, 0.5);
+}
+
+
+/* Индикатор температуры */
+
+.temperature-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 110px;
+}
+
+.temperature-indicator {
+    position: absolute;
+    display: flex;
+    justify-content: flex-end;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    margin: 25px 10px;
+    height: 32px;
+    width: 70px;
+    color: rgba(255, 255, 255, 1);
+    font-size: 18px;
+    font-family: monospace;
+    line-height: 32px;
+    background: #0075A2;
+    z-index: 10;
+}
+
+.temperature-value {
+    text-align: right;
+}
+
+.temperature-units {
+    float: right;
+    margin: 0 5px;
+}
+
+.temperature-scale {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 250px;
+    width: 70px;
+    margin: 10px;
+    border: 1px solid #0075A2;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.temperature-line {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 150px;
+    width: 15px;
+    border: 1px solid #0075A2;
+    margin: 60px auto -5px;
+}
+
+.temperature-color-tube {
+    height: 100px;
+    width: 11px;
+    margin: 2px;
+    background: linear-gradient(90deg, greenyellow 0%, green 90%);
+}
+
+.temperature-sphere {
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    border: 1px solid #0075A2;
+    background: radial-gradient(circle at 10px 10px, greenyellow, green);
+    margin: 0 auto 20px;
+}
+
+/* Индикатор аккумулятора */
+
+.battery-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 110px;
+}
+
+.battery-indicator {
+    position: absolute;
+    display: flex;
+    justify-content: flex-end;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    margin: 25px 10px;
+    height: 32px;
+    width: 70px;
+    color: rgba(255, 255, 255, 1);
+    font-size: 18px;
+    font-family: monospace;
+    line-height: 32px;
+    background: #0075A2;
+    z-index: 10;
+}
+
+.battery-value {
+    text-align: right;
+}
+
+.battery-units {
+    float: right;
+    margin: 0 5px;
+}
+
+.battery-scale {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 250px;
+    width: 70px;
+    margin: 10px;
+    border: 1px solid #0075A2;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.battery-line {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 160px;
+    width: 30px;
+    border: 1px solid #0075A2;
+    margin: 60px auto 10px;
+}
+
+.battery-color-tube {
+    height: 108px;
+    width: 26px;
+    margin: 2px;
+    background: linear-gradient(90deg, greenyellow 0%, green 90%);
+}
+
+
+/* */
+/* для тестирования интерфейса */
+/* */
+.inputs {
+    max-width: 200px;
+    padding: 15px;
+    color: #fff;
+}
+
+.inputs label {
+    display: block;
+    padding: 10px 0;
+}
+
+.inputs input {
+    width: 200px;
+}

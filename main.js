@@ -443,6 +443,56 @@ function init() {
             }
         }
 
+        /* вставка для индикаторов */
+
+        /* индикатор крена */
+        const rollMark = document.getElementById("roll-mark");
+        const airplaneRollView = document.getElementById("airplane-roll-view");
+
+        rollMark.innerText = ((180 / Math.PI) * camera.rotation.z).toFixed(0) < 360
+            ? ((180 / Math.PI) * camera.rotation.z).toFixed(0)
+            : ((180 / Math.PI) * camera.rotation.z).toFixed(0) - 360;
+        airplaneRollView.style.transform = 'rotate(' + (180 / Math.PI) * camera.rotation.z + 'deg)';
+
+        /* индикатор крена */
+        const pitchMark = document.getElementById("pitch-mark");
+        const airplanePitchView = document.getElementById("airplane-pitch-view");
+
+        pitchMark.innerText = ((180 / Math.PI) * camera.rotation.x).toFixed(0) < 360
+            ? ((180 / Math.PI) * camera.rotation.x).toFixed(0)
+            : ((180 / Math.PI) * camera.rotation.x).toFixed(0) - 360;
+        airplanePitchView.style.transform = 'rotate(' + (180 / Math.PI) * camera.rotation.x + 'deg)';
+
+
+        // console.dir(camera.rotation.z);
+        /* индикаторы горизонтальной скорости */
+        const hSpeedMark = document.getElementById("h-speed-mark");
+        hSpeedMark.innerText = Math.sqrt((parseFloat(playerVelocity.x)) ** 2 + (parseFloat(playerVelocity.z)) ** 2).toFixed(1);
+        const hSpeedView = document.getElementById("h-speed-arrow");
+        hSpeedView.style.transform = 'rotate(' + (-30 + +Math.sqrt((parseFloat(playerVelocity.x)) ** 2 + (parseFloat(playerVelocity.z)) ** 2).toFixed(1)) + 'deg)';
+
+        /* индикатор вертикальной скорости */
+        const vSpeedValueBox = document.getElementById("v-speed-value");
+        vSpeedValueBox.innerText = (playerVelocity.y).toFixed(1);
+        /* поправки */
+        let nearestSpeedDiv = document.getElementsByClassName('v-speed-nearest-value'); /* массив div-ов с ближайшими скоростями */
+        for (let i = 0; i < nearestSpeedDiv.length; i++) {
+            nearestSpeedDiv[i].innerHTML = (playerVelocity.y - 0.4 + 0.1 * i).toFixed(1);
+        }
+
+        /* индикатор высоты */
+        const heightValueBox = document.getElementById("height-value");
+        heightValueBox.innerText = (camera.position.y).toFixed(1);
+        /* поправки */
+        let nearestHeightDiv = document.getElementsByClassName('height-nearest-value'); /* массив div-ов с ближайшими высотами */
+        for (let i = 0; i < nearestHeightDiv.length; i++) {
+            nearestHeightDiv[i].innerHTML = (camera.position.y - 0.4 + 0.1 * i).toFixed(1);
+        }
+
+        /* компасс */
+        const compassScale = document.querySelector('.compass .scale');
+
+
     }
 
     function movingfunctionAir(deltaTime) { //  мувинг без коллизий с объектами физ мира, пока гирок в полете
@@ -598,160 +648,129 @@ function init() {
     }
 
 
-
-
-
     //  сальто правое (крен правый)
-    let onKeyDownSaltoR = function ( event ) {
-    switch ( event.keyCode ) {					
-        case 69: // e
-        startSaltoR = true;	
-        break;	
-    }
+    let onKeyDownSaltoR = function (event) {
+        switch (event.keyCode) {
+            case 69: // e
+                startSaltoR = true;
+                break;
+        }
     };
-    let onKeyUpSaltoR = function ( event ) {
-    switch ( event.keyCode ) {
-        case 69: // e
-        startSaltoR = false;	
-        camera.rotation.z = Math.PI*2;	
-        break;
-    }
+    let onKeyUpSaltoR = function (event) {
+        switch (event.keyCode) {
+            case 69: // e
+                startSaltoR = false;
+                camera.rotation.z = Math.PI * 2;
+                break;
+        }
     };
-    document.addEventListener( 'keydown', onKeyDownSaltoR, false );
-    document.addEventListener( 'keyup', onKeyUpSaltoR, false );
+    document.addEventListener('keydown', onKeyDownSaltoR, false);
+    document.addEventListener('keyup', onKeyUpSaltoR, false);
 
-    function moveSaltoRight(deltaTime){	// тестовая по дефолту камера имеет положение 0 градусов ли 360
+    function moveSaltoRight(deltaTime) {	// тестовая по дефолту камера имеет положение 0 градусов ли 360
         let speedshift = 65;
-        if (startSaltoR == true){	
-        camera.rotation.z += Math.PI/40; 				
-                if ( keyStates[ 'KeyW' ] ) {
-                    playerVelocity.add( getForwardVector().multiplyScalar( speedshift * deltaTime ) );
-                }
-                if ( keyStates[ 'KeyS' ] ) {
-                    playerVelocity.add( getForwardVector().multiplyScalar( - speedshift * deltaTime) );
-                }
-                if ( keyStates[ 'KeyA' ] ) {
-                    playerVelocity.add( getSideVector().multiplyScalar( - speedshift * deltaTime) );
-                }
-                if ( keyStates[ 'KeyD' ] ) {
-                    playerVelocity.add( getSideVector().multiplyScalar( speedshift * deltaTime) );
-                }									
+        if (startSaltoR == true) {
+            camera.rotation.z += Math.PI / 40;
+            if (keyStates['KeyW']) {
+                playerVelocity.add(getForwardVector().multiplyScalar(speedshift * deltaTime));
+            }
+            if (keyStates['KeyS']) {
+                playerVelocity.add(getForwardVector().multiplyScalar(-speedshift * deltaTime));
+            }
+            if (keyStates['KeyA']) {
+                playerVelocity.add(getSideVector().multiplyScalar(-speedshift * deltaTime));
+            }
+            if (keyStates['KeyD']) {
+                playerVelocity.add(getSideVector().multiplyScalar(speedshift * deltaTime));
+            }
         }
     }
 
 
     //  сальто леове (крен левый)
-    let onKeyDownSaltoL = function ( event ) {
-    switch ( event.keyCode ) {					
-        case 81: // q
-        startSaltoL = true;	
-        break;	
-    }
+    let onKeyDownSaltoL = function (event) {
+        switch (event.keyCode) {
+            case 81: // w
+                startSaltoL = true;
+                break;
+        }
     };
-    let onKeyUpSaltoL = function ( event ) {
-    switch ( event.keyCode ) {
-        case 81: // q
-        startSaltoL = false;	
-        camera.rotation.z = Math.PI*2;	
-        break;
-    }
+    let onKeyUpSaltoL = function (event) {
+        switch (event.keyCode) {
+            case 81: // q
+                startSaltoL = false;
+                camera.rotation.z = Math.PI * 2;
+                break;
+        }
     };
-    document.addEventListener( 'keydown', onKeyDownSaltoL, false );
-    document.addEventListener( 'keyup', onKeyUpSaltoL, false );
+    document.addEventListener('keydown', onKeyDownSaltoL, false);
+    document.addEventListener('keyup', onKeyUpSaltoL, false);
 
-    function moveSaltoLeft(deltaTime){	// тестовая по дефолту камера имеет положение 0 градусов ли 360
+    function moveSaltoLeft(deltaTime) {	// тестовая по дефолту камера имеет положение 0 градусов ли 360
         let speedshift = 65;
-        if (startSaltoL == true){	
-        camera.rotation.z -= Math.PI/40; 				
-                if ( keyStates[ 'KeyW' ] ) {
-                    playerVelocity.add( getForwardVector().multiplyScalar( speedshift * deltaTime ) );
-                }
-                if ( keyStates[ 'KeyS' ] ) {
-                    playerVelocity.add( getForwardVector().multiplyScalar( - speedshift * deltaTime) );
-                }
-                if ( keyStates[ 'KeyA' ] ) {
-                    playerVelocity.add( getSideVector().multiplyScalar( - speedshift * deltaTime) );
-                }
-                if ( keyStates[ 'KeyD' ] ) {
-                    playerVelocity.add( getSideVector().multiplyScalar( speedshift * deltaTime) );
-                }									
+        if (startSaltoL == true) {
+            camera.rotation.z -= Math.PI / 40;
+            if (keyStates['KeyW']) {
+                playerVelocity.add(getForwardVector().multiplyScalar(speedshift * deltaTime));
+            }
+            if (keyStates['KeyS']) {
+                playerVelocity.add(getForwardVector().multiplyScalar(-speedshift * deltaTime));
+            }
+            if (keyStates['KeyA']) {
+                playerVelocity.add(getSideVector().multiplyScalar(-speedshift * deltaTime));
+            }
+            if (keyStates['KeyD']) {
+                playerVelocity.add(getSideVector().multiplyScalar(speedshift * deltaTime));
+            }
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //////////////////////
 ///---Indicators---///
 //////////////////////
 
-/*
-    // работа с выводом в поля индикаторы:
-    // гипотеза вывода скорости
-    function kfix(nur) {
-        return nur.toFixed(10)
-    }; // округляет до 1-ой десятой
-    function delta(v1, v2) {
-        var delta = Math.max(v1) - Math.min(v2);
-        return (delta);
-    } // функция диапазон: поле значений диапазон между максиумом и минимумом
+    /*
+        // работа с выводом в поля индикаторы:
+        // гипотеза вывода скорости
+        function kfix(nur) {
+            return nur.toFixed(10)
+        }; // округляет до 1-ой десятой
+        function delta(v1, v2) {
+            var delta = Math.max(v1) - Math.min(v2);
+            return (delta);
+        } // функция диапазон: поле значений диапазон между максиумом и минимумом
 
-    function accelPrint(deltaTime) { //  передать знаение скорости , округлить и разделить
-        let speedGorund = 285;
-        let speedaAir = 65;
-        let speedshiftGround = 385;
-        let speedshiftAir = 165;
+        function accelPrint(deltaTime) { //  передать знаение скорости , округлить и разделить
+            let speedGorund = 285;
+            let speedaAir = 65;
+            let speedshiftGround = 385;
+            let speedshiftAir = 165;
 
-        if (playerOnFloor == true) {
-            let a = ((speedGorund / deltaTime) * 10);
-            rezVizual(a);
+            if (playerOnFloor == true) {
+                let a = ((speedGorund / deltaTime) * 10);
+                rezVizual(a);
+            }
+            if (playerOnFloor == false) {
+                let b = ((speedaAir / deltaTime) * 10);
+                rezVizual(b);
+            }
+            if (speedAccelOn == true && playerOnFloor == true) {
+                let d = ((speedshiftGround / deltaTime) * 10);
+                rezVizual(d);
+            }
+            if (speedAccelOn == true && playerOnFloor == false) {
+                let e = ((speedshiftAir / deltaTime) * 10);
+                rezVizual(e);
+            }
         }
-        if (playerOnFloor == false) {
-            let b = ((speedaAir / deltaTime) * 10);
-            rezVizual(b);
-        }
-        if (speedAccelOn == true && playerOnFloor == true) {
-            let d = ((speedshiftGround / deltaTime) * 10);
-            rezVizual(d);
-        }
-        if (speedAccelOn == true && playerOnFloor == false) {
-            let e = ((speedshiftAir / deltaTime) * 10);
-            rezVizual(e);
-        }
-    }
 
-    // Передача данных в индикаторы:
-    function rezVizual(a) {
-        let rezume1 = document.getElementById('r2f');// поле для вывода
-        rezume1.value = kfix(a);
-    }
-*/
+        // Передача данных в индикаторы:
+        function rezVizual(a) {
+            let rezume1 = document.getElementById('r2f');// поле для вывода
+            rezume1.value = kfix(a);
+        }
+    */
     /*
     function playerPos( deltaTime ){ //  передать знаение скорости
     let plx = playerVelocity.x;
@@ -875,16 +894,8 @@ function init() {
 //	avia.rotateY(Math.PI/2);
         avia.castShadow = true;
         avia.position.set(rayX + 0, rayY - 0.65, rayZ - 0.002);
-//	avia.visible = false;  
+//	avia.visible = false;
     },);
-
-
-
-
-
-
-
-
 
 
 /////////////////
@@ -904,8 +915,8 @@ function init() {
         scene.add(arrow1);
         groupRemote.add(arrow1);
         camera.add(arrow1);
-        arrow1.rotateX(Math.PI/2);
-        arrow1.rotateY(Math.PI/2);
+        arrow1.rotateX(Math.PI / 2);
+        arrow1.rotateY(Math.PI / 2);
         arrow1.position.set(rayX - 0.85, rayY - 0.52, rayZ - 0.0002);
     },);
 
@@ -915,8 +926,8 @@ function init() {
         scene.add(arrow1);
         groupRemote.add(arrow1);
         camera.add(arrow1);
-        arrow1.rotateX(Math.PI/2);
-        arrow1.rotateY(Math.PI/2);
+        arrow1.rotateX(Math.PI / 2);
+        arrow1.rotateY(Math.PI / 2);
         arrow1.position.set(rayX - 0.85, rayY - 0.52, rayZ - 0.0002);
     },);
 
@@ -926,8 +937,8 @@ function init() {
         scene.add(arrow1);
         groupRemote.add(arrow1);
         camera.add(arrow1);
-        arrow1.rotateX(Math.PI/2);
-        arrow1.rotateY(Math.PI/2);
+        arrow1.rotateX(Math.PI / 2);
+        arrow1.rotateY(Math.PI / 2);
         arrow1.position.set(rayX - 0.85, rayY - 0.52, rayZ - 0.0002);
     },);
 
@@ -937,8 +948,8 @@ function init() {
         scene.add(arrow1);
         groupRemote.add(arrow1);
         camera.add(arrow1);
-        arrow1.rotateX(Math.PI/2);
-        arrow1.rotateY(Math.PI/2);
+        arrow1.rotateX(Math.PI / 2);
+        arrow1.rotateY(Math.PI / 2);
         arrow1.position.set(rayX - 0.85, rayY - 0.52, rayZ - 0.0002);
     },);
     //
@@ -949,8 +960,8 @@ function init() {
         scene.add(carcas);
         groupRemote.add(carcas);
         camera.add(carcas);
-        carcas.rotateX(Math.PI/2);
-        carcas.rotateY(Math.PI/2);
+        carcas.rotateX(Math.PI / 2);
+        carcas.rotateY(Math.PI / 2);
         carcas.position.set(rayX - 0.85, rayY - 0.52, rayZ - 0.0002);
     },);
 
@@ -960,8 +971,8 @@ function init() {
         scene.add(carcas);
         groupRemote.add(carcas);
         camera.add(carcas);
-        carcas.rotateX(Math.PI/2);
-        carcas.rotateY(Math.PI/2);
+        carcas.rotateX(Math.PI / 2);
+        carcas.rotateY(Math.PI / 2);
         carcas.position.set(rayX - 0.85, rayY - 0.52, rayZ - 0.0002);
     },);
 
@@ -971,8 +982,8 @@ function init() {
         scene.add(carcas);
         groupRemote.add(carcas);
         camera.add(carcas);
-        carcas.rotateX(Math.PI/2);
-        carcas.rotateY(Math.PI/2);
+        carcas.rotateX(Math.PI / 2);
+        carcas.rotateY(Math.PI / 2);
         carcas.position.set(rayX - 0.85, rayY - 0.52, rayZ - 0.0002);
     },);
     //
@@ -983,8 +994,8 @@ function init() {
         scene.add(arrow1);
         groupRemote.add(arrow1);
         camera.add(arrow1);
-        arrow1.rotateX(Math.PI/2);
-        arrow1.rotateY(Math.PI/2);
+        arrow1.rotateX(Math.PI / 2);
+        arrow1.rotateY(Math.PI / 2);
         arrow1.position.set(rayX - 0.85, rayY - 0.52, rayZ - 0.0002);
     },);
 
@@ -994,8 +1005,8 @@ function init() {
         scene.add(arrow1);
         groupRemote.add(arrow1);
         camera.add(arrow1);
-        arrow1.rotateX(Math.PI/2);
-        arrow1.rotateY(Math.PI/2);
+        arrow1.rotateX(Math.PI / 2);
+        arrow1.rotateY(Math.PI / 2);
         arrow1.position.set(rayX - 0.85, rayY - 0.52, rayZ - 0.0002);
     },);
 
@@ -1005,8 +1016,8 @@ function init() {
         scene.add(arrow1);
         groupRemote.add(arrow1);
         camera.add(arrow1);
-        arrow1.rotateX(Math.PI/2);
-        arrow1.rotateY(Math.PI/2);
+        arrow1.rotateX(Math.PI / 2);
+        arrow1.rotateY(Math.PI / 2);
         arrow1.position.set(rayX - 0.85, rayY - 0.52, rayZ - 0.0002);
     },);
 
@@ -1016,44 +1027,43 @@ function init() {
         scene.add(arrow1);
         groupRemote.add(arrow1);
         camera.add(arrow1);
-        arrow1.rotateX(Math.PI/2);
-        arrow1.rotateY(Math.PI/2);
+        arrow1.rotateX(Math.PI / 2);
+        arrow1.rotateY(Math.PI / 2);
         arrow1.position.set(rayX - 0.85, rayY - 0.52, rayZ - 0.0002);
     },);
-
 
 
     let changeTestOn = function (event) {
         switch (event.keyCode) {
             case 87: // w
-            chaingeColor1ArUp();            
+                chaingeColor1ArUp();
                 break;
             case 83: // s
-            chaingeColor1ArDown();            
+                chaingeColor1ArDown();
                 break;
             case 65: // a
-            chaingeColor1ArLeft();            
-                 break;
+                chaingeColor1ArLeft();
+                break;
             case 68: // d
-            chaingeColor1ArRight();            
-                 break;
+                chaingeColor1ArRight();
+                break;
 
             case 32: // space
-            chaingeColor1Up();            
-                break;  
+                chaingeColor1Up();
+                break;
             case 67: // c
-            chaingeColor1Down();            
+                chaingeColor1Down();
                 break;
             case 88: // x
-            chaingeColor1Down();            
+                chaingeColor1Down();
                 break;
 
             case 69: // e
-            chaingeColor1RightRotate();            
-                break;  
+                chaingeColor1RightRotate();
+                break;
             case 81: // q
-            chaingeColor1LeftRotate();            
-                break;                             
+                chaingeColor1LeftRotate();
+                break;
         }
     };
     document.addEventListener('keydown', changeTestOn, false);
@@ -1061,42 +1071,37 @@ function init() {
     let changeTestoff = function (event) {
         switch (event.keyCode) {
             case 87: // w
-            chaingeColor2ArUp();
+                chaingeColor2ArUp();
                 break;
             case 83: // s
-            chaingeColor2ArDown();
+                chaingeColor2ArDown();
                 break;
             case 65: // a
-            chaingeColor2ArLeft();            
-                 break;
+                chaingeColor2ArLeft();
+                break;
             case 68: // d
-            chaingeColor2ArRight();            
-                 break; 
+                chaingeColor2ArRight();
+                break;
 
             case 32: // space
-            chaingeColor2Up();            
-                break;  
+                chaingeColor2Up();
+                break;
             case 67: // c
-            chaingeColor2Down();            
+                chaingeColor2Down();
                 break;
             case 88: // x
-            chaingeColor2Down();            
-                break;                
+                chaingeColor2Down();
+                break;
             case 69: // e
-            chaingeColor2ArRightRotate();            
-                break;  
+                chaingeColor2ArRightRotate();
+                break;
             case 81: // q
-            chaingeColor2ArLeftRotate();            
-                break;                   
-                 
+                chaingeColor2ArLeftRotate();
+                break;
+
         }
     };
     document.addEventListener('keyup', changeTestoff, false);
-
-
-
-
-
 
 
     // правый стик
@@ -1111,7 +1116,7 @@ function init() {
         camera.children[2].children[0].material = colorRemoteOn;
     }
 
-    
+
     function chaingeColor1ArDown() { // вверх стрелка
         let colorRemoteOn = new THREE.MeshLambertMaterial({color: '#f00'});
         camera.children[3].children[0].material = colorRemoteOn;
@@ -1143,7 +1148,8 @@ function init() {
         let colorRemoteOn = new THREE.MeshLambertMaterial({color: 'grey'})
         camera.children[5].children[0].material = colorRemoteOn;
     }
-    //  
+
+    //
     // левый стик
     //
 
@@ -1189,63 +1195,49 @@ function init() {
     }
 
 
+    /*
+        function movinCheck() { //
+            let colorRemoteOff = new THREE.MeshPhongMaterial({color: "black", depthWrite: false});
+            let colorRemoteOn = new THREE.MeshPhongMaterial({color: "red", depthWrite: false});
 
-
-
-
-
-
-
-
-
-
-/*
-    function movinCheck() { // 
-        let colorRemoteOff = new THREE.MeshPhongMaterial({color: "black", depthWrite: false});
-        let colorRemoteOn = new THREE.MeshPhongMaterial({color: "red", depthWrite: false});
-
-            if (keyStates['KeyW'] == true) {
-                groupRemote.children[0].children[0].material = colorRemoteOn;
+                if (keyStates['KeyW'] == true) {
+                    groupRemote.children[0].children[0].material = colorRemoteOn;
+                }
+                if (keyStates['KeyW'] == false){
+                    groupRemote.children[0].children[0].material = colorRemoteOff;
+                }
             }
-            if (keyStates['KeyW'] == false){
-                groupRemote.children[0].children[0].material = colorRemoteOff;
-            }
+    */
+
+
+    /*
+    // загрузка анимационных моделей: --------------------------------------------------------
+        // model
+        var loader = new FBXLoader();
+        // загрузка моделей:
+        let ob12 = './3d/models/arenanimat/01 1кол.fbx'; // лого 0,3  и 1,0
+    //	fun3d(ob12, 0,3, 1, 0,0,0,); // -3д модель, child , clip в миксер анимации, scaleObj , positions x-y-z
+        // сначала имя модели, затем размер, далее ребенок объекта, далее клип анимации
+        function fun3d(obs, objChil, objClip, scaleObj, xObj, yObj, zObj) { // моя фун. для удобства быстрой щагрузки в аргументы параметров
+            loader.load(obs, function (object) {	// встроенный метод загрузки моделей
+
+                var mesh = object.children[objChil]; // меш как child - подобъект файла анимации
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+                scene.add(mesh);
+
+                mixer = new THREE.AnimationMixer(object);
+                var action = mixer.clipAction(object.animations[objClip]);   // загрузка клипа анимации
+                object.position.set(xObj, yObj, zObj); // перемещение именно аним объекта, а не просто mesh.position.set(0,0,0); // как child
+                object.scale.set(scaleObj, scaleObj, scaleObj); // масштабир-е именно аним об, а не  mesh.scale.set(0,0,0); // как child
+                object.castShadow = true; // отброс теней именно от аним объекта,  а не mesh
+                object.receiveShadow = true;
+
+                action.play();
+                scene.add(object);
+            });
         }
-*/
-
-
-
-
-
-
-/*
-// загрузка анимационных моделей: --------------------------------------------------------
-    // model
-    var loader = new FBXLoader();
-    // загрузка моделей:
-    let ob12 = './3d/models/arenanimat/01 1кол.fbx'; // лого 0,3  и 1,0
-//	fun3d(ob12, 0,3, 1, 0,0,0,); // -3д модель, child , clip в миксер анимации, scaleObj , positions x-y-z
-    // сначала имя модели, затем размер, далее ребенок объекта, далее клип анимации
-    function fun3d(obs, objChil, objClip, scaleObj, xObj, yObj, zObj) { // моя фун. для удобства быстрой щагрузки в аргументы параметров
-        loader.load(obs, function (object) {	// встроенный метод загрузки моделей
-
-            var mesh = object.children[objChil]; // меш как child - подобъект файла анимации
-            mesh.castShadow = true;
-            mesh.receiveShadow = true;
-            scene.add(mesh);
-
-            mixer = new THREE.AnimationMixer(object);
-            var action = mixer.clipAction(object.animations[objClip]);   // загрузка клипа анимации
-            object.position.set(xObj, yObj, zObj); // перемещение именно аним объекта, а не просто mesh.position.set(0,0,0); // как child
-            object.scale.set(scaleObj, scaleObj, scaleObj); // масштабир-е именно аним об, а не  mesh.scale.set(0,0,0); // как child
-            object.castShadow = true; // отброс теней именно от аним объекта,  а не mesh
-            object.receiveShadow = true;
-
-            action.play();
-            scene.add(object);
-        });
-    }
-*/
+    */
 
     // cleaners scene:
     function Remove() {
@@ -1372,12 +1364,12 @@ function init() {
         movingfunction(deltaTime);
         movingfunctionAir(deltaTime);
 
-        moveSaltoRight(deltaTime);       
+        moveSaltoRight(deltaTime);
         moveSaltoLeft(deltaTime);
 
         requestAnimationFrame(buttonFire);
-     //   accelPrint(deltaTime);
-     //   movinCheck();
+        //   accelPrint(deltaTime);
+        //   movinCheck();
 
         moveshift(deltaTime);
         moveshiftonAir(deltaTime);
