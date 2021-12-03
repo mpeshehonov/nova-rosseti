@@ -35,7 +35,7 @@ let groupRemote; // группа деталей пульта ДУ
 let startSaltoR = false;	// сальто боковое правое (крен правый)
 let startSaltoL = false;	// сальто боковое левое (крен левый)
 
-
+let audio = new Audio('./audio/coin.mp3');
 init();
 
 // Счётчик очков
@@ -275,7 +275,8 @@ function init() {
         for (let i = 0; i < intersections.length; i++) {
             const touchedSquare = intersections[i];
             let yPointIntersect = touchedSquare.point.y;
-            if (onObject === true && yPointIntersect > 0 || onObject === true && yPointIntersect < 0) {
+            if ( onObject === true  ) {
+                audio.play();
                 pointCount = pointCount + 1;
                 touchedSquare.object.material.color.set('#FF33FF');
                 touchedSquare.object.scale.set(0.2, 0.2, 0.2);
