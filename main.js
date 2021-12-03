@@ -249,13 +249,18 @@ function init() {
 
 
     // Добавляем рандомно красные квадраты для прохождения
-    for (let i = 0; i < 500; i++) {
+    for (let i = 0; i < 100; i++) {
         var redSquare = new THREE.Mesh(
-          new THREE.BoxBufferGeometry(3, 0.3, 3),
-          new THREE.MeshLambertMaterial({color: '#f00'}));
+          new THREE.CylinderGeometry( 0.5, 0.5, 0.1, 32),
+          new THREE.MeshLambertMaterial({color: 'yellow'}));
         scene.add(redSquare);
-        redSquare.position.set(Math.floor(Math.random()*300), 0.0, Math.floor(Math.random()*300)); // 75, 4, 16.5
+        redSquare.position.set(
+          Math.floor(Math.random()*300),
+          Math.floor(Math.random()*100),
+          Math.floor(Math.random()*300)); // 75, 4, 16.5
         redSquare.castShadow = true;
+        redSquare.rotation.x = Math.PI / 2;
+        redSquare.rotation.y = Math.PI / 4;
         redButtons.push(redSquare);
     }
 
@@ -793,7 +798,7 @@ function init() {
 // предметы - объекты на сцене
     // ground
     var meshground = new THREE.Mesh(new THREE.PlaneBufferGeometry(2000, 2000), new THREE.MeshPhongMaterial({
-        color: 0x948D7D,
+        color: 'green',
         depthWrite: false
     }));
     meshground.receiveShadow = true;
