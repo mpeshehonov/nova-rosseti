@@ -263,8 +263,8 @@ function init() {
         redButtons.push(redSquare);
     }
 
-    const light0 = new THREE.AmbientLight(0x404040); // soft white light (мягкий белый свет)
-    scene.add( light0 );
+    //const light0 = new THREE.AmbientLight(0x404040); // soft white light (мягкий белый свет)
+    //scene.add( light0 );
 
     const bulbGeometry = new THREE.SphereGeometry(0.1, 16, 18); // создать геометрию лампы из сферы
     bulbLight = new THREE.PointLight(0xB1E1FF, 5, 50, 2); // это лампа из точки
