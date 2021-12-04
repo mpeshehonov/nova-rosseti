@@ -263,8 +263,11 @@ function init() {
         redButtons.push(redSquare);
     }
 
+    const light0 = new THREE.AmbientLight(0x404040); // soft white light (мягкий белый свет)
+    scene.add( light0 );
+
     const bulbGeometry = new THREE.SphereGeometry(0.1, 16, 18); // создать геометрию лампы из сферы
-    bulbLight = new THREE.PointLight(0xB1E1FF, 10, 100, 2); // это лампа из точки
+    bulbLight = new THREE.PointLight(0xB1E1FF, 5, 50, 2); // это лампа из точки
 
     bulbMat = new THREE.MeshStandardMaterial({
         emissive: 0xffffee,
@@ -273,10 +276,25 @@ function init() {
     });
 
     bulbLight.add(new THREE.Mesh(bulbGeometry, bulbMat));
-    bulbLight.position.set(185, 12, 125);
+    bulbLight.position.set(165, 12, 135);
     bulbLight.castShadow = true;
     bulbLight.receiveShadow = true;
     scene.add(bulbLight);
+
+    // некот. настройки теней лампочки:
+    bulbLight.decay = 2;
+    bulbLight.distance = 50;
+    bulbLight.shadow.focus = 4;
+
+    bulbLight.name = 'BulbLight';
+    bulbLight.angle = Math.PI / 5;
+    bulbLight.penumbra = 0.3;
+    bulbLight.shadow.camera.near = 0.01;
+    bulbLight.shadow.camera.far = 200;
+    bulbLight.shadow.mapSize.width = 1024; // 64 /128 /256 /512
+    bulbLight.shadow.mapSize.height = 1024;
+    bulbLight.shadow.bias = - 0.00002;
+    bulbLight.shadow.radius = 18;
 
     function touchRedButton() { 	// можно использовать как прохождение трассы, или напротив- ошибка, если было касание
         raycaster.ray.origin.copy(controls.getObject().position);
